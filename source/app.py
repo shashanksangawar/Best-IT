@@ -1,26 +1,30 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_cors import CORS
 from sold_connector import *
 from stock_connector import *
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def add_items():
+    return render_template('index.html',display='')
 
 @app.route('/insert', methods=['POST'])
 def insert():
     try:
         # Getting Data Values from User
-        data = request.get_json()
-        date = data.get('date')
-        company_name = data.get('company_name')
-        model_name = data.get('model_name')
-        processor = data.get('processor')
-        ssd = data.get('ssd')
-        hdd = data.get('hdd')
-        ram = data.get('ram')
-        supplier = data.get('supplier')
-        available_at = data.get('available_at')
-
+        data = request.form
+        
+        date = data['date']
+        company_name = data['company_name']
+        model_name = data['model_name']
+        processor = data['processor']
+        ssd = data['ssd'] 
+        hdd = data['hdd']
+        ram = data['ram']
+        supplier = data['supplier']
+        available_at = data['available_at']
+        return render_template('index.html',display='Text Received')
 
         # Connecting To DataBase
         connection = connect_to_database()  
