@@ -1,25 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+	<title>Best Computer</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="static/main.css" />
 </head>
+
 <body>
-    <form method="post">
-        Purchase Date: <input type="text" name="date" placeholder="Purchase Date"><br><br>
-        Company Name: <input type="text" name="company_name" placeholder="Company Name"><br><br>
-        Model Name: <input type="text" name="model_name" placeholder="Model Name"><br><br>
-        Processor: <input type="text" name="processor" placeholder="Processor"><br><br>
-        SSD: <input type="text" name="ssd" placeholder="SSD"><br><br>
-        HDD: <input type="text" name="hdd" placeholder="HDD"><br><br>
-        RAM: <input type="text" name="ram" placeholder="RAM"><br><br>
-        Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name"><br><br>
-        Device Available at: <input type="text" name="available_at" placeholder="Device Available at"><br><br>
-        <br><br>
-        <input type="submit" formaction="/insert" value="Submit Item">
-    </form>
-    <h1>{{display}}</h1>
+
+	<!-- Hero section -->
+	<div class="hero">
+
+		<!-- Navbar -->
+		<nav class="navbar" id="navbar">
+			<span id="logo">Best Computer</span>
+			<input type="text" name="search" value="Search">
+		</nav>
+
+		<!-- Main section -->
+		<main>
+			<div class="SideNavbar">
+				<div class="in_container">
+					<button>Add product</button>
+					<button>Available stock</button>
+					<button>Sold stock</button>
+					<button>Update</button>
+				</div>
+			</div>
+
+			<div class="container_1">
+				<h1 class="h1">Inventory product's</h1>
+				<div class="container">
+
+					<!-- Example here dynamic content should be displayed -->
+					<div class="items">
+						<img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-Cs3L8dGH9jA%2FTnfw4I4CT4I%2FAAAAAAAAAH8%2F4zq0yTDNE_4%2Fs1600%2FDell-XPS-Laptop.jpg&f=1&nofb=1&ipt=ba43abd9b6b668f552d235eb0726830b37a2d535975c5830c2f1aa7344cdc7cb&ipo=images"
+							alt="">
+						<div class="item_data">
+							<div class="data">2023-11-03</div>
+							<div class="data">LONOVO</div>
+							<div class="data">Purchased-by : rahul</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+
+	</div>
 </body>
+
 </html>

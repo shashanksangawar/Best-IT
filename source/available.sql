@@ -16,3 +16,5 @@ CREATE TABLE product_issues (
     Issue VARCHAR(255),
     FOREIGN KEY (SerialNum) REFERENCES product_details(SerialNo)
 );
+
+

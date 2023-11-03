@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form method="post">
+        Serial Number: <input type="text" name="serial_no" placeholder="Serial Number"><br><br>
+        Purchase Date: <input type="text" name="date" placeholder="Purchase Date"><br><br>
+        Company Name: <input type="text" name="company_name" placeholder="Company Name"><br><br>
+        Model Name: <input type="text" name="model_name" placeholder="Model Name"><br><br>
+        Processor: <input type="text" name="processor" placeholder="Processor"><br><br>
+        SSD: <input type="text" name="ssd" placeholder="SSD"><br><br>
+        HDD: <input type="text" name="hdd" placeholder="HDD"><br><br>
+        RAM: <input type="text" name="ram" placeholder="RAM"><br><br>
+        Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name"><br><br>
+        Device Available at: <input type="text" name="available_at" placeholder="Device Available at"><br><br>
+        <br><br>
+        <input type="submit" formaction="/insert" value="Submit Item">
+    </form>
+    <h1>{{display}}</h1>
+</body>
+</html>

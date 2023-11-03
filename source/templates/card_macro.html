@@ -1,0 +1,14 @@
+{% macro display_product_card(product) %}
+    <div class="items">
+        <p>Serial No: {{ product[0] }}</p>
+        <p>Purchase Date: {{ product[1] }}</p>
+        <p>Company Name: {{ product[2] }}</p>
+        <p>Model Name: {{ product[3] }}</p>
+        <p>Processor: {{ product[4] }}</p>
+        <p>SSD: {{ product[5] }}</p>
+        <p>HDD: {{ product[6] }}</p>
+        <p>RAM: {{ product[7] }}</p>
+        <p>Supplier: {{ product[8] }}</p>
+        <p>Available At: {{ product[9] }}</p>
+    </div>
+{% endmacro %}
