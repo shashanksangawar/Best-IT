@@ -9,46 +9,58 @@
 </head>
 
 <body>
+	<!-- Defining Macro for other html file -->
+	{% macro common_elements() %}
+		<!-- Hero section -->
+		<div class="hero">
 
-	<!-- Hero section -->
-	<div class="hero">
+			<!-- Navbar -->
+			<nav class="navbar" id="navbar">
+				<span id="logo">Best Computer</span>
+				<input type="text" name="search" value="Search">
+			</nav>
 
-		<!-- Navbar -->
-		<nav class="navbar" id="navbar">
-			<span id="logo">Best Computer</span>
-			<input type="text" name="search" value="Search">
-		</nav>
-
-		<!-- Main section -->
-		<main>
-			<div class="SideNavbar">
-				<div class="in_container">
-					<div class="btn"><a href="">Add product</a></div>
-					<div class="btn"><a href="assets/available_stock.html">Available stock</a></div>
-					<div class="btn"><a href="assets/sold_stock.html">Sold stock</a></div>
-					<div class="btn">Update</div>
-				</div>
-			</div>
-
-			<div class="container_1">
-				<h1 class="h1">Inventory product's</h1>
-				<div class="container">
-
-					<!-- Example here dynamic content should be displayed -->
-					<div class="items">
-						<img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-Cs3L8dGH9jA%2FTnfw4I4CT4I%2FAAAAAAAAAH8%2F4zq0yTDNE_4%2Fs1600%2FDell-XPS-Laptop.jpg&f=1&nofb=1&ipt=ba43abd9b6b668f552d235eb0726830b37a2d535975c5830c2f1aa7344cdc7cb&ipo=images"
-							alt="">
-						<div class="item_data">
-							<div class="data">2023-11-03</div>
-							<div class="data">LONOVO</div>
-							<div class="data">Purchased-by : rahul</div>
-						</div>
+			<!-- Main section -->
+			<main>
+				<div class="SideNavbar">
+					<div class="in_container">
+						<div class="btn"><a href="/add">Add product</a></div>
+						<div class="btn"><a href="/available_stock">Available stock</a></div>
+						<div class="btn"><a href="/sold_stock">Sold stock</a></div>
+						<div class="btn"><a href="/defective_stock">Defective stock</a></div>
 					</div>
 				</div>
-			</div>
-		</main>
+	{% endmacro %}
 
-	</div>
+	{% macro common_elements_end() %}
+
+			</main>
+
+		</div>
+	{% endmacro %}
+	
+		<div class="hero">
+
+			<!-- Navbar -->
+			<nav class="navbar" id="navbar">
+				<span id="logo">Best Computer</span>
+				<input type="text" name="search" value="Search">
+			</nav>
+
+			<!-- Main section -->
+			<main>
+				<div class="SideNavbar">
+					<div class="in_container">
+						<div class="btn"><a href="/add">Add product</a></div>
+						<div class="btn"><a href="/available_stock">Available stock</a></div>
+						<div class="btn"><a href="/sold_stock">Sold stock</a></div>
+						<div class="btn"><a href="/defective_stock">Defective stock</a></div>
+					</div>
+						</div>
+			</main>
+
+		</div>
+	
 </body>
 
 </html>

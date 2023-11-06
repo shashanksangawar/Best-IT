@@ -1,78 +1,66 @@
 from flask import Flask, request, render_template
 from flask_cors import CORS
-from sold_connector import *
-from stock_connector import *
+from backend import *
+import os
 app = Flask(__name__)
 CORS(app)
-app._static_folder = "/home/joker/Desktop/backend/source/templates/static"
 
-@app.route('/available_stock')
-def available_stock():
-    try:
-        connection = connect_to_database()  
-        cursor = connection.cursor()
-        try:
-            query = f"SELECT * FROM product_details;"
-            cursor.execute(query,)
-            rows = cursor.fetchall()
-            # headings = ('Date', 'CompanyName', 'ModelName', 'Processor', 'SSD', 'HDD', 'RAM', 'Supplier', 'AvailableAt')
-            if rows is not None:
-                return render_template('available_stock.html', product_data=rows)
-            else:
-                connection.rollback()
-                cursor.close()
-                close_connection(connection)
-                return {'returncode': 1, 'message':'No data to be displayed'}, 400
-            
-        except :
-            connection.rollback()
-            cursor.close()
-            close_connection(connection)
-            return {'returncode': 1, 'message':'Data Values were not inserted.'}, 503
-    except:
-        return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
-   
+# Directory Path of current file 
+source_path = os.path.dirname(__file__)
+source_path = str(source_path)
 
-@app.route('/add_items')
+# Configuration for Flask App
+app._static_folder = "templates/static/"
+app.secret_key = "secret key"
+# app.config['UPLOAD_FOLDER'] = source_path + "source/.upload/"
+
+# Display & backend
+@app.route('/add')
 def add_items():
     return render_template('add.html',display='')
 
+@app.route('/sold_stock')
+def sold_stock():
+    return sold_stock_working()
+
+@app.route('/available_stock')
+def available_stock():
+    return available_stock_working()
+
+@app.route('/defective_stock')
+def defective_stock():
+        return defective_stock_working()
+
+
+
+# Pure backend
+@app.route("/issue",  methods=['POST'])
+def issue():
+    request_json = request.json
+    issue_type = request_json.get('type')
+    try:
+        if issue_type == "Available":
+            available_issue_working(request_json)
+            return {'returncode': 10, 'message': f'Issue Received'}, 200
+        elif issue_type == "Sold":
+            sold_issue_working(request_json)
+            return {'returncode': 10, 'message': f'Issue Received'}, 200
+    except:
+        return {'returncode': 1, 'message': 'No Issue Type Selected'}, 503
+
+
+@app.route('/sell',  methods=['POST'])
+def sell():
+    return sell_working()
+
 @app.route('/insert', methods=['POST'])
 def insert():
-    try:
-        # Getting Data Values from User
-        data = request.form
-        serial_no = data['serial_no']
-        date = data['date']
-        company_name = data['company_name']
-        model_name = data['model_name']
-        processor = data['processor']
-        ssd = data['ssd'] 
-        hdd = data['hdd']
-        ram = data['ram']
-        supplier = data['supplier']
-        available_at = data['available_at']
+    return insert_items(app=app)
 
-        # Connecting To DataBase
-        connection = connect_to_database()  
-        cursor = connection.cursor()
-        try:
-            query = "INSERT INTO product_details(SerialNo, PurchaseDate, CompanyName, ModelName, Processor, SSD, HDD, RAM, Supplier, AvailableAt) VALUES (%s, %s, %s, %s, %s ,%s, %s, %s, %s, %s)"
-            cursor.execute(query, (serial_no, date, company_name, model_name, processor, ssd, hdd, ram, supplier, available_at))
-            connection.commit()
-            cursor.close()
-            close_connection(connection)
-            return render_template('add.html',display='Data Values were inserted.')
-        except Exception as e :
-            connection.rollback()
-            cursor.close()
-            close_connection(connection)
-            return render_template('add.html',display=f'{e}')
-    except Exception as e:
-        return render_template('add.html',display=f'{e}')
-
-        return render_template('add.html',display='Either Connection to Database was not Formed or the JSON is invalid.')
-
+# Index Page
+@app.route('/')
+def main_page():
+    return render_template('index.html')
 
 @app.route("/test")
 def test():
