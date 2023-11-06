@@ -1,3 +1,6 @@
+
+{% from 'index.html' import common_elements,common_elements_end %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,22 +8,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='add.css') }}"/>
+    
 </head>
 <body>
-    <form method="post">
-        Serial Number: <input type="text" name="serial_no" placeholder="Serial Number"><br><br>
-        Purchase Date: <input type="text" name="date" placeholder="Purchase Date"><br><br>
-        Company Name: <input type="text" name="company_name" placeholder="Company Name"><br><br>
-        Model Name: <input type="text" name="model_name" placeholder="Model Name"><br><br>
-        Processor: <input type="text" name="processor" placeholder="Processor"><br><br>
-        SSD: <input type="text" name="ssd" placeholder="SSD"><br><br>
-        HDD: <input type="text" name="hdd" placeholder="HDD"><br><br>
-        RAM: <input type="text" name="ram" placeholder="RAM"><br><br>
-        Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name"><br><br>
-        Device Available at: <input type="text" name="available_at" placeholder="Device Available at"><br><br>
+    {{ common_elements() }}
+    <form method="post" enctype="multipart/form-data" class="form">
+       <div class="container">
+        Serial Number: <input type="text" name="serial_no" placeholder="Serial Number" required class="inputs"><br><br>
+        Purchase Date: <input type="text" name="date" placeholder="Purchase Date" required class="inputs"><br><br>
+        Company Name: <input type="text" name="company_name" placeholder="Company Name" required class="inputs"><br><br>
+        Model Name: <input type="text" name="model_name" placeholder="Model Name" required class="inputs"><br><br>
+        Processor: <input type="text" name="processor" placeholder="Processor" required class="inputs"><br><br>
+        <div class="inside-container">
+            SSD: <input type="text" name="ssd" placeholder="SSD" class="inputs"><br><br>
+            HDD: <input type="text" name="hdd" placeholder="HDD" class="inputs-2"><br><br>
+            RAM: <input type="text" name="ram" placeholder="RAM" required class="inputs-2"><br><br>
+            Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name" required class="inputs-2"><br><br>
+            Device Available at: <input type="text" name="available_at" placeholder="Device Available at" required class="inputs-2"><br><br>
+        </div>
+         <!-- Device Proof: <input type="file" name="device" accept="image/*" required><br><br>
+        Image Proof: <input type="file" name="image_proof" accept="image/*" required><br><br>
+         -->
         <br><br>
-        <input type="submit" formaction="/insert" value="Submit Item">
+
+       </div>
+       <div class="container-2">
+        <input type="submit" formaction="/insert" value="Submit Item" class="inputs-button">
+
+       </div>
     </form>
     <h1>{{display}}</h1>
+    {{ common_elements_end() }}
+ 
 </body>
 </html>

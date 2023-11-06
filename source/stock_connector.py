@@ -8,7 +8,8 @@ db_config = {
     'database': 'STOCK_AVAILABLE'
 }
 
-def connect_to_database():
+
+def connect_to_available_database():
     try:
         connection = mysql.connector.connect(**db_config)
         return connection

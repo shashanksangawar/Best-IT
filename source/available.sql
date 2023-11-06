@@ -17,4 +17,9 @@ CREATE TABLE product_issues (
     FOREIGN KEY (SerialNum) REFERENCES product_details(SerialNo)
 );
 
-
+CREATE TABLE product_images (
+    SerialNum VARCHAR(100),
+    Device VARCHAR(255),
+    ImageProof VARCHAR(255),
+    FOREIGN KEY (SerialNum) REFERENCES product_details(SerialNo)
+);

@@ -1,0 +1,9 @@
+{% macro display_product_card(product) %}
+    <div class="items">
+        <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F3.bp.blogspot.com%2F-Cs3L8dGH9jA%2FTnfw4I4CT4I%2FAAAAAAAAAH8%2F4zq0yTDNE_4%2Fs1600%2FDell-XPS-Laptop.jpg&f=1&nofb=1&ipt=ba43abd9b6b668f552d235eb0726830b37a2d535975c5830c2f1aa7344cdc7cb&ipo=images"alt="">
+        <div class="card-contents">
+            <p id="serial_no">Serial No: {{ product[0] }}</p>
+            <p>Issues: {{ product[1] }}</p>
+        </div>
+    </div>
+{% endmacro %}
