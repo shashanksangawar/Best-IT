@@ -28,8 +28,6 @@ include '../includes/template.html';
        </div>
     </form>
 </main></div>
-</body>
-</html>
 
 <?php
 
@@ -53,8 +51,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     
     // SQL Connector
     $db_host = "127.0.0.1"; 
-    $db_user = "root";
-    $db_password = "admin";
+    $db_user = "eminence";
+    $db_password = "shadosama";
     $db_name = "STOCK_AVAILABLE";
 
     $db = new mysqli($db_host, $db_user, $db_password, $db_name);
