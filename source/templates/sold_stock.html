@@ -1,4 +1,3 @@
-{% from 'card_macro_sold.html' import display_product_card %}
 {% from 'index.html' import common_elements,common_elements_end %}
 <!DOCTYPE html>
 <html lang="en">
@@ -18,9 +17,38 @@
 <body>
     {{ common_elements() }}
     <div class="card">
-        {% for product in product_data %}
-            {{ display_product_card(product) }}
-        {% endfor %}
+        <div class="items">
+            <!-- Images -->
+            <div class="image-container">
+            {% for image in device %}
+                <img src="{{image}}" alt="device" width="200">
+            {% endfor %}
+
+            {% for image in image_proof %}
+                <img src="{{image}}" alt="image_proof" width="200">
+            {% endfor %}
+            </div>
+
+            <!-- Product Data -->
+            <div class="card-contents">
+                {% for product in product_data %}
+                <p id="serial_no">Serial No: {{ product[0] }}</p>
+                <p>Purchase Date: {{ product[1] }}</p>
+                <p>Company Name: {{ product[2] }}</p>
+                <p>Model Name: {{ product[3] }}</p>
+                <p>Processor: {{ product[4] }}</p>
+                <p>SSD: {{ product[5] }}</p>
+                <p>HDD: {{ product[6] }}</p>
+                <p>RAM: {{ product[7] }}</p>
+                <p>Supplier: {{ product[8] }}</p>
+                <p>Available At: {{ product[9] }}</p>
+            </div>
+            <div class="container-buttons">
+                <button class="issue" onclick="openIssueModal('{{ product[0] }}')">Issue</button>
+                <button class="sell"  onclick="openSellModal('{{ product[0] }}')">Sell</button>
+            </div> 
+            {% endfor %}            
+        </div>
     </div>
     {{ common_elements_end() }}
 

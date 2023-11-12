@@ -8,7 +8,6 @@ db_config = {
     'database': 'STOCK_SOLD'
 }
 
-
 def connect_to_sold_database():
     try:
         connection = mysql.connector.connect(**db_config)

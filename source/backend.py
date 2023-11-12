@@ -3,7 +3,7 @@ from flask_cors import CORS
 from sold_connector import *
 from stock_connector import *
 from werkzeug.utils import secure_filename
-
+import io, base64
 
 def insert_items(app):
     try:
@@ -21,11 +21,8 @@ def insert_items(app):
         available_at = data['available_at']
 
         # Getting Files from User
-        # device_image = request.files['device']
-        # image_proof = request.files['image_proof']
-
-        # if (device_image.filename or image_proof.filename) == "":
-        #     return {'returncode': 1, 'message': 'No File Selected.'}, 400
+        device_image = request.files['device'].read()
+        image_proof = request.files['image_proof'].read()
 
         # Connecting To DataBase
         connection = connect_to_available_database()  
@@ -35,32 +32,17 @@ def insert_items(app):
             cursor.execute(query, (serial_no, date, company_name, model_name, processor, ssd, hdd, ram, supplier, available_at))
             connection.commit()
             try:
-                # if device_image or image_proof:
-                # # secure_filename is needed to allow using user input as string
-                #     device_image_file = secure_filename(device_image.filename)
-                #     image_proof_file = secure_filename(image_proof.filename)
-                #     sanitized_serial_no = secure_filename(serial_no)
-                # # A directory of serial_no will be created
-                #     os.system(f"mkdir source/.upload/{sanitized_serial_no}")
-
-                # # Images will be stored in .upload/ folder
-                #     file =  sanitized_serial_no +"/"+device_image_file  
-                #     device_path = (os.path.join(app.config['UPLOAD_FOLDER'], file))
-                #     device_image.save(device_path)
-                #     file =  sanitized_serial_no +"/"+image_proof_file  
-                #     image_proof_path = (os.path.join(app.config['UPLOAD_FOLDER'], file))
-                #     image_proof.save(image_proof_path)
-
-                # #   Giving Path in Database
-                #     query = "INSERT INTO product_images(SerialNum, Device, ImageProof) VALUES (%s, %s, %s)"
-                #     cursor.execute(query, (serial_no, image_proof_path, image_proof_path))
-                #     connection.commit()
-                #     cursor.close()
-                #     close_connection(connection)
+                if device_image or image_proof:
+                #   Giving Path in Database
+                    query = "INSERT INTO product_images(SerialNum, Device, ImageProof) VALUES (%s, %s, %s)"
+                    cursor.execute(query, (serial_no, device_image, image_proof))
+                    connection.commit()
+                    cursor.close()
+                    close_connection(connection)
                     return render_template('add.html',display='Data Values were inserted.')
             except Exception as e :
-                # query = "DELETE FROM product_images WHERE SerialNo='%s';"
-                # cursor.execute(query,(serial_no))
+                query = "DELETE FROM product_images WHERE SerialNo='%s';"
+                cursor.execute(query,(serial_no))
                 connection.commit()
                 cursor.close()
                 close_connection(connection)
@@ -73,19 +55,69 @@ def insert_items(app):
     except Exception as e:
         return render_template('add.html',display=f'{e}')
 
+def proof_image_pulling():
+    try:
+        connection = connect_to_available_database()  
+        cursor = connection.cursor()
+        try:
+            query = f"SELECT ImageProof FROM product_images;"
+            cursor.execute(query,)
+            rows = cursor.fetchall()
+            # Create a list to store image data
+            images = []
+
+            # Loop through each image record and append it to the images list
+            for image_record in rows:
+                image_data = image_record[0]
+                images.append(f"data:image/*;base64,{base64.b64encode(image_data).decode('utf-8')}")
+                return images   
+        except Exception as e:
+            connection.rollback()
+            cursor.close()
+            close_connection(connection)
+            return {'returncode': 1, 'message':f'{e}'}, 503
+    except:
+        return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
+
+
+
+def device_image_pulling():
+    try:
+        connection = connect_to_available_database()  
+        cursor = connection.cursor()
+        try:
+            query = f"SELECT Device FROM product_images;"
+            cursor.execute(query,)
+            rows = cursor.fetchall()
+            # Create a list to store image data
+            images = []
+
+            # Loop through each image record and append it to the images list
+            for image_record in rows:
+                image_data = image_record[0]
+                images.append(f"data:image/*;base64,{base64.b64encode(image_data).decode('utf-8')}")
+                return images   
+        except Exception as e:
+            connection.rollback()
+            cursor.close()
+            close_connection(connection)
+            return {'returncode': 1, 'message':f'{e}'}, 503
+    except:
+        return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
+
+
 def available_stock_working():
     try:
 
         connection = connect_to_available_database()  
         cursor = connection.cursor()
         try:
-            # query = f"SELECT * FROM product_details u, product_images a WHERE a.SerialNum=u.SerialNo;"
             query = f"SELECT * FROM product_details;"
             cursor.execute(query,)
             rows = cursor.fetchall()
-            
+            device = device_image_pulling(); image_proof = proof_image_pulling()
             if rows is not None:
-                return render_template('available_stock.html', product_data=rows,output='')
+                return render_template('available_stock.html', product_data=rows, device=device, image_proof=image_proof)
             else:
                 connection.rollback()
                 cursor.close()
@@ -209,6 +241,7 @@ def sell_working():
     customer_contact = request_json.get('customer_contact')
     selling_date = request_json.get('selling_date')
     serial_no = request_json.get('serial_no')
+
     try:
         connection_available = connect_to_available_database()
         cursor_available = connection_available.cursor()
@@ -219,47 +252,78 @@ def sell_working():
             if row is not None:
                 serial_no, purchase_date, company_name, model_name, processor, ssd, hdd, ram, supplier, available_at = row
                 del purchase_date; del supplier; del available_at
-                query = f"DELETE FROM product_details WHERE SerialNo = '{serial_no}';"
-                cursor_available.execute(query)
-                connection_available.commit()
-                cursor_available.close()
-                close_connection(connection_available)
-                sell_working_2(serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact)
+                try:
+                    query_images = f"SELECT Device, ImageProof FROM product_images WHERE SerialNum = '{serial_no}';"
+                    cursor_available.execute(query_images)
+                    row = cursor_available.fetchone()
+                    if row is not None:
+                        device,image_proof = row
+
+                        # Deleting the Images
+                        query = f"DELETE FROM product_images WHERE SerialNum = '{serial_no}';"
+                        cursor_available.execute(query)
+                        connection_available.commit()
+
+                        # Deleting the Issues
+                        query = f"DELETE FROM product_issues WHERE SerialNum = '{serial_no}';"
+                        cursor_available.execute(query)
+                        connection_available.commit()
+
+                        # Deleting the details
+                        query = f"DELETE FROM product_details WHERE SerialNo = '{serial_no}';"
+                        cursor_available.execute(query)
+                        connection_available.commit()
+
+                        # Closing the Connection 
+                        cursor_available.close()
+                        close_connection(connection_available)
+                        print(11111)
+                        sell_working_2(serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact, device, image_proof)
+                except Exception as e:
+                    connection_available.rollback()
+                    cursor_available.close()
+                    close_connection(connection_available)
+                    print(e)
+                    return {'returncode': 1, 'message': f'{e}'}, 503
             else:
                 connection_available.rollback()
                 cursor_available.close()
                 close_connection(connection_available)
-                flash(f"{e}.")
                 return {'returncode': 1, 'message': 'No data to be inserted'}, 400
         except Exception as e:
             connection_available.rollback()
             cursor_available.close()
             close_connection(connection_available)
-            flash(f"{e}.")
             return {'returncode': 1, 'message': f'{e}'}, 503
     except Exception as e:
         cursor_available.close()
         close_connection(connection_available)
         return {'returncode': 1, 'message': 'Connection to Available Database was not formed.'}, 503
 
-def sell_working_2(serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact):
+def sell_working_2(serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact, device, image_proof):
     connection_sold = connect_to_sold_database()
     cursor_sold = connection_sold.cursor()
     try:
         query = "INSERT INTO product_details(SerialNo, SellDate, CompanyName, ModelName, Processor, SSD, HDD, RAM, CustomerName, CustomerContact) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor_sold.execute(query, (serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact))
         connection_sold.commit()
-        cursor_sold.close()
-        close__connection(connection_sold)
-        flash("Item Sold.")
+        
+        try:
+            query = "INSERT INTO product_images(SerialNo, Device, ImageProof) VALUES (%s, %s, %s)"
+            cursor_sold.execute(query, (serial_no, device, image_proof))
+            connection_sold.commit()
+            cursor_sold.close()
+            close__connection(connection_sold)
+        except Exception as e:
+            connection_sold.rollback()
+            cursor_sold.close()
+            close__connection(connection_sold)
+            print(e)
+            return {'returncode': 1, 'message': f'{e}'}, 503
         
     except Exception as e:
         connection_sold.rollback()
         cursor_sold.close()
         close__connection(connection_sold)
+        print(e)
         return {'returncode': 1, 'message': f'{e}'}, 503
-
-        
-def issue_handler():
-    issue_details = request.form.get('issue')
-    

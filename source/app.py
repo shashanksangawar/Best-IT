@@ -12,7 +12,6 @@ source_path = str(source_path)
 # Configuration for Flask App
 app._static_folder = "templates/static/"
 app.secret_key = "secret key"
-# app.config['UPLOAD_FOLDER'] = source_path + "source/.upload/"
 
 # Display & backend
 @app.route('/add')
