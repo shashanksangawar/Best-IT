@@ -18,7 +18,8 @@
 		<!-- Navbar -->
 		<nav class="w-[25dvw] bg-blue-300 lg:flex flex-col justify-between items-center py-[2rem] hidden" id="navbar">
 			<div class="cnt font-bold flex flex-col items-center">
-				<span class="w-[80px] h-[80px] rounded-full bg-white text-4xl block flex justify-center items-center border border-black">BC</span>
+				<span
+					class="w-[80px] h-[80px] rounded-full bg-white text-4xl block flex justify-center items-center border border-black">BC</span>
 				<span class="text-2xl">Best Computer's</span>
 			</div>
 			<div class="cnt">
@@ -34,7 +35,8 @@
 		<!-- Main section -->
 		<main class="lg:w-[80dvw] w-screen">
 			<div class="search flex justify-center p-[1rem]">
-				<input type="search" name="search" placeholder="Search" class="lg:w-[40dvw] w-[70dvw] text-xl font-semibold rounded-lg">
+				<input type="search" name="search" placeholder="Search"
+					class="lg:w-[40dvw] w-[70dvw] text-xl font-semibold rounded-lg">
 			</div>
 		</main>
 
