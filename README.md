@@ -1,3 +1,3 @@
 #Best-IT
 
-##Mi Tailwind ajun add ny kelay udya karu
+##Mi Tailwind ajun add ny kelay udya karu.
