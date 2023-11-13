@@ -1,17 +1,21 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 from flask_cors import CORS
 from backend import *
-import os
+# from global_variables import issue_serial, sold_serial
+import os, secrets
 app = Flask(__name__)
 CORS(app)
 
+issue_serial = None
+sold_serial = None
 # Directory Path of current file 
 source_path = os.path.dirname(__file__)
 source_path = str(source_path)
 
 # Configuration for Flask App
 app._static_folder = "templates/static/"
-app.secret_key = "secret key"
+app.secret_key = secrets.token_hex(16)
+
 
 # Display & backend
 @app.route('/add')
@@ -30,27 +34,46 @@ def available_stock():
 def defective_stock():
         return defective_stock_working()
 
-
-
-# Pure backend
-@app.route("/issue",  methods=['POST'])
+@app.route('/issue')
 def issue():
-    request_json = request.json
-    issue_type = request_json.get('type')
+    value = request.args.get('serial_no')
+    global issue_serial
+    issue_serial = value
+    return render_template('issue.html', serial_no=issue_serial)
+
+@app.route("/issue_backend", methods=["GET", "POST"])
+def issue_backend():
+    form = request.form
     try:
-        if issue_type == "Available":
-            available_issue_working(request_json)
-            return {'returncode': 10, 'message': f'Issue Received'}, 200
-        elif issue_type == "Sold":
-            sold_issue_working(request_json)
-            return {'returncode': 10, 'message': f'Issue Received'}, 200
-    except:
+        serial_no = issue_serial
+        message, statuscode = available_issue_working(serial_no=serial_no, request_json=form)
+        return f"<h1>{message['message']}</h1>"
+    except Exception as err:
+        print(11111)
+        print(err)
         return {'returncode': 1, 'message': 'No Issue Type Selected'}, 503
 
 
-@app.route('/sell',  methods=['POST'])
+@app.route('/sell')
 def sell():
-    return sell_working()
+    value = request.args.get('serial_no')
+    global sold_serial
+    sold_serial = value
+    return render_template('sell.html', serial_no=sold_serial)
+
+@app.route("/sell_backend", methods=["GET", "POST"])
+def sell_backend():
+    form = request.form
+    try:
+        serial_no = sold_serial
+        message, statuscode = sell_working(serial_no=serial_no, request_json=form)
+        return f"<h1>{message['message']}</h1>"
+    except Exception as err:
+        print(11111)
+        print(err)
+        return {'returncode': 1, 'message': 'No Issue Type Selected'}, 503
+
+
 
 @app.route('/insert', methods=['POST'])
 def insert():

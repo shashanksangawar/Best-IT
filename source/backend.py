@@ -79,8 +79,6 @@ def proof_image_pulling():
     except:
         return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
 
-
-
 def device_image_pulling():
     try:
         connection = connect_to_available_database()  
@@ -104,6 +102,55 @@ def device_image_pulling():
             return {'returncode': 1, 'message':f'{e}'}, 503
     except:
         return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
+
+def sell_proof_image_pulling():
+    try:
+        connection = connect_to_sold_database()  
+        cursor = connection.cursor()
+        try:
+            query = f"SELECT ImageProof FROM product_images;"
+            cursor.execute(query,)
+            rows = cursor.fetchall()
+            # Create a list to store image data
+            images = []
+
+            # Loop through each image record and append it to the images list
+            for image_record in rows:
+                image_data = image_record[0]
+                images.append(f"data:image/*;base64,{base64.b64encode(image_data).decode('utf-8')}")
+                return images   
+        except Exception as e:
+            connection.rollback()
+            cursor.close()
+            close__connection(connection)
+            return {'returncode': 1, 'message':f'{e}'}, 503
+    except:
+        return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
+
+def sell_device_image_pulling():
+    try:
+        connection = connect_to_sold_database()  
+        cursor = connection.cursor()
+        try:
+            query = f"SELECT Device FROM product_images;"
+            cursor.execute(query,)
+            rows = cursor.fetchall()
+            # Create a list to store image data
+            images = []
+
+            # Loop through each image record and append it to the images list
+            for image_record in rows:
+                image_data = image_record[0]
+                images.append(f"data:image/*;base64,{base64.b64encode(image_data).decode('utf-8')}")
+                return images   
+        except Exception as e:
+            connection.rollback()
+            cursor.close()
+            close__connection(connection)
+            return {'returncode': 1, 'message':f'{e}'}, 503
+    except:
+        return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
+
 
 
 def available_stock_working():
@@ -138,23 +185,22 @@ def sold_stock_working():
         connection = connect_to_sold_database()  
         cursor = connection.cursor()
         try:
-            # query = f"SELECT * FROM product_details u, product_images a WHERE a.SerialNum=u.SerialNo;"
             query = f"SELECT * FROM product_details;"
             cursor.execute(query,)
             rows = cursor.fetchall()
-            
+            device = sell_device_image_pulling(); image_proof = sell_proof_image_pulling()
             if rows is not None:
-                return render_template('sold_stock.html', product_data=rows)
+                return render_template('sold_stock.html', product_data=rows, device=device, image_proof=image_proof)
             else:
                 connection.rollback()
                 cursor.close()
-                close__connection(connection)
+                close_connection(connection)
                 return {'returncode': 1, 'message':'No data to be displayed'}, 400
                 
         except Exception as e:
             connection.rollback()
             cursor.close()
-            close__connection(connection)
+            close_connection(connection)
             return {'returncode': 1, 'message':f'{e}'}, 503
     except:
         return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
@@ -186,14 +232,14 @@ def defective_stock_working():
         return {'returncode': 1, 'message': 'Connection to Database was not Formed.'}, 503
 
 
-def available_issue_working(request_json):
-    issues = request_json.get('issues')
-    serial_no = request_json.get('serial_no')
+def available_issue_working(serial_no,request_json):
+    issues = request_json['issue']
     try:
         connection_available = connect_to_available_database()
         cursor_available = connection_available.cursor()
         try:
             query = f"INSERT INTO product_issues(SerialNum, Issue) VALUES ('{serial_no}', '{issues}') ;"
+            print(query)
             cursor_available.execute(query, )
             connection_available.commit()
             cursor_available.close()
@@ -210,38 +256,11 @@ def available_issue_working(request_json):
         close_connection(connection_available)
         return {'returncode': 1, 'message': 'Connection to Available Database was not formed.'}, 503
 
-def sold_issue_working(request_json):
-    issues = request_json.get('issues')
-    serial_no = request_json.get('serial_no')
-    try:
-        connection_sold = connect_to_sold_database()
-        cursor_sold = connection_sold.cursor()
-        try:
-            query = f"INSERT INTO product_issues(SerialNum, Issue) VALUES ('{serial_no}', '{issues}');"
-            cursor_sold.execute(query, )
-            connection_sold.commit()
-            cursor_sold.close()
-            close__connection(connection_sold)
-
-        except Exception as e:
-            connection_sold.rollback()
-            cursor_sold.close()
-            close__connection(connection_sold)
-            return {'returncode': 1, 'message': f'{e}'}, 503
-
-    except Exception as e:
-        cursor_sold.close()
-        close__connection(connection_sold)
-        return {'returncode': 1, 'message': 'Connection to Available Database was not formed.'}, 503
-
-
-def sell_working():
-    request_json = request.json
-    customer_name = request_json.get('customer_name')
-    customer_contact = request_json.get('customer_contact')
-    selling_date = request_json.get('selling_date')
-    serial_no = request_json.get('serial_no')
-
+def sell_working(serial_no, request_json):
+    customer_name = request_json['customer_name']
+    customer_contact = request_json['customer_contact']
+    selling_date = request_json['selling_date']
+    image_proof = request.files['image_proof'].read()
     try:
         connection_available = connect_to_available_database()
         cursor_available = connection_available.cursor()
@@ -253,11 +272,11 @@ def sell_working():
                 serial_no, purchase_date, company_name, model_name, processor, ssd, hdd, ram, supplier, available_at = row
                 del purchase_date; del supplier; del available_at
                 try:
-                    query_images = f"SELECT Device, ImageProof FROM product_images WHERE SerialNum = '{serial_no}';"
+                    query_images = f"SELECT Device FROM product_images WHERE SerialNum = '{serial_no}';"
                     cursor_available.execute(query_images)
                     row = cursor_available.fetchone()
                     if row is not None:
-                        device,image_proof = row
+                        device, = row
 
                         # Deleting the Images
                         query = f"DELETE FROM product_images WHERE SerialNum = '{serial_no}';"
@@ -277,7 +296,8 @@ def sell_working():
                         # Closing the Connection 
                         cursor_available.close()
                         close_connection(connection_available)
-                        print(11111)
+                        print(type(device))
+                        print(type(image_proof))
                         sell_working_2(serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact, device, image_proof)
                 except Exception as e:
                     connection_available.rollback()
@@ -301,6 +321,8 @@ def sell_working():
         return {'returncode': 1, 'message': 'Connection to Available Database was not formed.'}, 503
 
 def sell_working_2(serial_no, selling_date, company_name, model_name, processor, ssd, hdd, ram, customer_name, customer_contact, device, image_proof):
+    print(type(device))
+    print(type(image_proof))
     connection_sold = connect_to_sold_database()
     cursor_sold = connection_sold.cursor()
     try:
@@ -309,7 +331,8 @@ def sell_working_2(serial_no, selling_date, company_name, model_name, processor,
         connection_sold.commit()
         
         try:
-            query = "INSERT INTO product_images(SerialNo, Device, ImageProof) VALUES (%s, %s, %s)"
+            
+            query = "INSERT INTO product_images(SerialNum, Device, ImageProof) VALUES (%s, %s, %s)"
             cursor_sold.execute(query, (serial_no, device, image_proof))
             connection_sold.commit()
             cursor_sold.close()
