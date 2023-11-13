@@ -1,0 +1,41 @@
+{% from 'index.html' import common_elements,common_elements_end %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Stock</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='card.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='defective.css') }}"/>
+</head>
+<body>
+    {{ common_elements() }}
+    <div class="card">
+        <div class="items">
+            <!-- Images -->
+            <div class="image-container">
+            {% for image in device %}
+                <img src="{{image}}" alt="device" width="200">
+            {% endfor %}
+
+            {% for image in image_proof %}
+                <img src="{{image}}" alt="image_proof" width="200">
+            {% endfor %}
+            </div>
+
+            <!-- Product Data -->
+            <div class="card-contents">
+                {% for product in product_data %}
+                <p id="serial_no">Serial No: {{ product[0] }}</p>
+                <p>Issues: {{ product[1] }}</p>
+            </div>
+            {% endfor %}            
+        </div>
+    </div>
+    <h1>{{output}}</h1>
+    {{ common_elements_end() }}
+
+</body>
+</html>
