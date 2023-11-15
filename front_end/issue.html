@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Available Stock Issue</title>
+	<link rel="stylesheet" type="text/css" href="/static/main.css">
+	<link rel="stylesheet" type="text/css" href="/static/card.css">
+	<link rel="stylesheet" type="text/css" href="/static/issue.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+	<!-- Hero section -->
+	<div class="hero">
+
+		<!-- Navbar -->
+		<nav class="navbar" id="navbar">
+			<span id="logo">Best Computer</span>
+			<input type="text" name="search" value="Search">
+		</nav>
+
+		<!-- Main section -->
+		<main>
+			<div class="SideNavbar">
+				<div class="in_container">
+					<div class="btn"><a href="/add">Add product</a></div>
+					<div class="btn"><a href="/available_stock">Available stock</a></div>
+					<div class="btn"><a href="/sold_stock">Sold stock</a></div>
+					<div class="btn"><a href="/defective_stock">Defective stock</a></div>
+				</div>
+			</div>
+
+			<form method="post" class="issue-form">
+				<div class="issue-text">
+					<input type="text" name="issue">
+				</div>
+				<div class="issue-btn">
+					<input type="submit" formaction="/issue_backend" value="Add Issue" class="inputs-button">
+				</div>
+			</form>
+			<h1> </h1>
+
+
+		</main>
+
+	</div>
+
+</body>
+
+</html>
