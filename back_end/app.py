@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, session
 from flask_cors import CORS
 from backend import *
+from backend2 import *
 # from global_variables import issue_serial, sold_serial
 import os, secrets
 app = Flask(__name__)
@@ -29,6 +30,18 @@ def sold_stock():
 @app.route('/available_stock')
 def available_stock():
     return available_stock_working()
+
+@app.route('/full_info')
+def full_info():
+    info_type = request.args.get('info_type')
+    serial = request.args.get('serial_no')
+    if info_type == 'Available':
+        return full_info_available_working(serial_no=serial)
+    if info_type == 'Sold':
+        return full_info_sold_working(serial_no=serial)
+
+
+
 
 @app.route('/defective_stock')
 def defective_stock():

@@ -7,78 +7,78 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Register product</title>
-	<link rel="stylesheet" type="text/css" href="./static/main.css">
-	<!-- <link rel="stylesheet" type="text/css" href="/static/add.css"> -->
-	<link rel="stylesheet" type="text/css" href="./static/output.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./static/output.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./static/input.css" media="all">
 </head>
 
 <body>
 
-	{{common_elements()}}
+    {{common_elements()}}
 
-	<div class="w-[80%] mx-auto">
-		<form method="post" enctype="multipart/form-data" class="form lg:w-[65dvw] w-full mx-auto my-0">
-			<div class="grid lg:grid-cols-2 grid-cols-1 lg:w-full w-[80%] mx-auto gap-10 py-4">
-				<div class="cnt_1">
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Serial Number: <input type="text" name="serial_no" placeholder="Serial Number" required=""
-							class="inputs">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Purchase Date: <input type="text" name="date" placeholder="Purchase Date" required=""
-							class="inputs">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Company Name: <input type="text" name="company_name" placeholder="Company Name" required=""
-							class="inputs">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Model Name: <input type="text" name="model_name" placeholder="Model Name" required=""
-							class="inputs">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Processor: <input type="text" name="processor" placeholder="Processor" required=""
-							class="inputs">
-					</div>
+				<div class="">
+					<form method="post" enctype="multipart/form-data" class="form lg:w-[65dvw] w-full mx-auto my-0">
+						<div class="grid lg:grid-cols-2 grid-cols-1 lg:w-full w-[80%]	mx-auto gap-10 py-4">
+							<div class="cnt_1">
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Serial Number: <input type="text" name="serial_no" placeholder="Serial Number"
+										required="" class="inputs">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Purchase Date: <input type="text" name="date" placeholder="YYYY-MM-DD"
+										required="" class="inputs">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Company Name: <input type="text" name="company_name" placeholder="Company Name"
+										required="" class="inputs">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Model Name: <input type="text" name="model_name" placeholder="Model Name"
+										required="" class="inputs">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Processor: <input type="text" name="processor" placeholder="Processor" required=""
+										class="inputs">
+								</div>
+							</div>
+							<div class="cnt_2">
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									SSD: <input type="text" name="ssd" placeholder="SSD" class="inputs">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									HDD: <input type="text" name="hdd" placeholder="HDD" class="inputs-2">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									RAM: <input type="text" name="ram" placeholder="RAM" required="" class="inputs-2">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name"
+										required="" class="inputs-2">
+								</div>
+								<div class="inp_box my-2 p-3 border-b-2 border-black">
+									Device Available at: <input type="text" name="available_at"
+										placeholder="Device Available at" required="" class="inputs-2">
+								</div>
+							</div>
+							<div class="inp_file_box flex md:flex-row flex-col justify-between items-center">
+								<div class="p-3">
+									Device Proof: <input type="file" name="device" accept="image/*" required="">
+								</div>
+								<div class="p-3">
+									Image Proof: <input type="file" name="image_proof" accept="image/*" required="">
+								</div>
+							</div>
+						</div>
+						<div class="flex lg:justify-start justify-center lg:gap-8 gap-4 text-white font-medium">
+							<div
+								class="submit_btn w-40 lg:my-8 lg:p-2 my-3 p-1 text-xl text-center border border-black bg-green-600 rounded-lg">
+								<input type="submit" formaction="/insert" value="Submit Item"
+									class="inputs-button cursor-pointer">
+							</div>
+							<div
+								class="submit_btn w-40 lg:my-8 lg:p-2 my-3 p-1 text-xl text-center border border-black bg-red-600 rounded-lg">
+								<input type="reset" formaction="" value="Cancel" class="inputs-button cursor-pointer">
+							</div>
+						</div>
+					</form>
 				</div>
-				<div class="cnt_2">
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						SSD: <input type="text" name="ssd" placeholder="SSD" class="inputs">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						HDD: <input type="text" name="hdd" placeholder="HDD" class="inputs-2">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						RAM: <input type="text" name="ram" placeholder="RAM" required="" class="inputs-2">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name" required=""
-							class="inputs-2">
-					</div>
-					<div class="inp_box my-2 p-3 border-b-2 border-black">
-						Device Available at: <input type="text" name="available_at" placeholder="Device Available at"
-							required="" class="inputs-2">
-					</div>
-				</div>
-				<div class="inp_file_box flex md:flex-row flex-col justify-between items-center">
-					<div class="p-3">
-						Device Proof: <input type="file" name="device" accept="image/*" required="">
-					</div>
-					<div class="p-3">
-						Image Proof: <input type="file" name="image_proof" accept="image/*" required="">
-					</div>
-				</div>
-			</div>
-			<div class="flex lg:justify-start justify-center lg:gap-8 gap-4 text-white font-medium">
-				<div
-					class="submit_btn w-40 lg:my-8 lg:p-2 my-3 p-1 text-xl text-center border border-black bg-green-600 rounded-lg">
-					<input type="submit" formaction="/insert" value="Submit Item" class="inputs-button cursor-pointer">
-				</div>
-				<div
-					class="submit_btn w-40 lg:my-8 lg:p-2 my-3 p-1 text-xl text-center border border-black bg-red-600 rounded-lg">
-					<input type="submit" formaction="" value="Cancel" class="inputs-button cursor-pointer">
-				</div>
-			</div>
-		</form>
-	</div>
 	{{common_elements_end()}}

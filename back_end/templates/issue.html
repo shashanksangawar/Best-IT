@@ -7,16 +7,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./static/output.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./static/input.css" media="all">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
     {{common_elements()}}
     <form method="post" class="issue-form" enctype="multipart/form-data">
         <div class="issue-text">
-            &nbsp;&nbsp;Issue :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="issue" placeholder="Keyboard Not Working.."><br><br>
+            &nbsp;&nbsp;Issue :&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="issue" placeholder="Keyboard Not Working.." required><br><br>
         </div>
         <div class="container-buttons">
-            &nbsp;&nbsp;<input type="submit" formaction="/issue_backend" value="Add Issue" class="issue bg-red-500 px-2 text-xl rounded">
+            &nbsp;&nbsp;<input type="submit" formaction="/issue_backend" value="Add Issue" class="issue bg-red-500 px-2 text-xl rounded" required>
         </div>
     </form>
     {{common_elements_end()}}

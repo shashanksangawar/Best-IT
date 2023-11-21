@@ -1,9 +1,8 @@
-from flask import Flask, request, render_template,flash
-from flask_cors import CORS
+from flask import request, render_template
 from sold_connector import *
 from stock_connector import *
 from werkzeug.utils import secure_filename
-import io, base64
+import base64
 
 def insert_items(app):
     try:
@@ -159,12 +158,10 @@ def available_stock_working():
         connection = connect_to_available_database()  
         cursor = connection.cursor()
         try:
-            query = f"SELECT * FROM product_details;"
+            query = f"SELECT pd.* FROM product_details pd LEFT JOIN product_issues pi ON pd.SerialNo = pi.SerialNum WHERE pi.SerialNum IS NULL OR pi.SerialNum IS NULL;"
             cursor.execute(query,)
             rows = cursor.fetchall()
             device = device_image_pulling(); image_proof = proof_image_pulling()
-            print(len(device))
-            print(len(image_proof))
             if rows is not None:
                 loop = len(rows)
                 return render_template('available_stock.html', product_data=rows, device=device, image_proof=image_proof, forloop=loop)
