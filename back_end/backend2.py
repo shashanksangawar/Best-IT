@@ -8,18 +8,20 @@ def full_info_available_working(serial_no):
         connection_available = connect_to_available_database()
         cursor_available = connection_available.cursor()
         try:
-            query = f"SELECT * FROM product_details WHERE SerialNo={serial_no};"
+            query = f"SELECT * FROM product_details WHERE SerialNo='{serial_no}';"
             cursor_available.execute(query,)
             rows = cursor_available.fetchone()
             try:
-                    query = f"SELECT Device, ImageProof FROM product_images WHERE SerialNum={serial_no};"
+                    query = f"SELECT Device FROM product_images WHERE SerialNum='{serial_no}';"
                     cursor_available.execute(query,)
+                    print(query)
                     row = cursor_available.fetchone()
-                    device ,image_proof = row
+                    print(len(row))
+                    print(type(row))
+                    device , = row
                     device = f"data:image/*;base64,{base64.b64encode(device).decode('utf-8')}"
-                    image_proof = f"data:image/*;base64,{base64.b64encode(image_proof).decode('utf-8')}"
                     if row is not None:
-                        return render_template('full_info_available.html', product_data=rows, device=device, image_proof=image_proof)
+                        return render_template('full_info_available.html', product_data=rows, device=device)
                     else:
                         connection_available.rollback()
                         cursor_available.close()

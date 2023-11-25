@@ -21,14 +21,11 @@
                     {% for index in range(product_data | length) %}
                     <div class="card p-4 border border-black w-[100%] rounded-xl">
                         <div class="items">
-                            <!-- Images -->
-
                             <!-- Product Data -->
                             <div class="card-contents grid place-items-center gap-2 mt-2">
                                 <p id="serial_no">Serial No: {{ product_data[index][0] }}</p>
                                 <p>Issues: {{ product_data[index][1] }}</p>
                             </div>
-                            
                         </div>
                     </div>
                 {% endfor %}

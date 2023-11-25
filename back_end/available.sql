@@ -1,3 +1,5 @@
+CREATE DATABASE STOCK_AVAILABLE;
+
 CREATE TABLE product_details (
     SerialNo VARCHAR(100) PRIMARY KEY,
     PurchaseDate DATETIME, 
@@ -8,7 +10,8 @@ CREATE TABLE product_details (
     HDD VARCHAR(10), 
     RAM VARCHAR(10), 
     Supplier VARCHAR(100),
-    AvailableAt VARCHAR(70)
+    AvailableAt VARCHAR(70),
+    Remarks VARCHAR(250)
 );
 
 CREATE TABLE product_issues (
@@ -20,6 +23,5 @@ CREATE TABLE product_issues (
 CREATE TABLE product_images (
     SerialNum VARCHAR(100),
     Device LONGBLOB,
-    ImageProof LONGBLOB,
     FOREIGN KEY (SerialNum) REFERENCES product_details(SerialNo)
 );

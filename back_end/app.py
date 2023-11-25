@@ -1,14 +1,15 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template
 from flask_cors import CORS
 from backend import *
 from backend2 import *
-# from global_variables import issue_serial, sold_serial
 import os, secrets
 app = Flask(__name__)
 CORS(app)
 
+# Global Variables for Issue and Sell
 issue_serial = None
 sold_serial = None
+
 # Directory Path of current file 
 source_path = os.path.dirname(__file__)
 source_path = str(source_path)
@@ -16,7 +17,6 @@ source_path = str(source_path)
 # Configuration for Flask App
 app._static_folder = "templates/static/"
 app.secret_key = secrets.token_hex(16)
-
 
 # Display & backend
 @app.route('/add')
@@ -86,7 +86,7 @@ def sell_backend():
 
 @app.route('/insert', methods=['POST'])
 def insert():
-    return insert_items(app=app)
+    return insert_items()
 
 # Index Page
 @app.route('/')

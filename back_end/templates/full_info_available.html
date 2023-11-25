@@ -19,9 +19,8 @@
             <div class="card p-4 border border-black w-[100%] rounded-xl">
                 <div class="items">
                     <!-- Images -->
-                    <div class="img_cnt w-[100%] grid sm:grid-cols-2 grid-cols-1">
-                        <img src="{{ device }}" alt="device" width="200">
-                        <img src="{{ image_proof }}" alt="image_proof" width="200">
+                    <div class="img_cnt w-[100%] grid  sm:grid-cols-2 grid-cols-1">
+                        <img src="{{ device }}" alt="device" width="400">
                     </div>
                     
 
@@ -37,6 +36,7 @@
                         <p>RAM: {{ product_data[7] }}</p>
                         <p>Supplier: {{ product_data[8] }}</p>
                         <p>Available At: {{ product_data[9] }}</p>
+                        <p>Remarks: {{ product_data[10] }}</p>
                     </div>
                     
                     <div class="container-buttons">

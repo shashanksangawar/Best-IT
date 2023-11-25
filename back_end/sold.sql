@@ -1,3 +1,5 @@
+CREATE DATABASE STOCK_SOLD;
+
 CREATE TABLE product_details (
     SerialNo VARCHAR(100) PRIMARY KEY,
     SellDate DATETIME, 
@@ -8,13 +10,8 @@ CREATE TABLE product_details (
     HDD VARCHAR(10), 
     RAM VARCHAR(10), 
     CustomerName VARCHAR(100),
-    CustomerContact VARCHAR(10)
-);
-
-CREATE TABLE product_issues (
-    SerialNum VARCHAR(100),
-    Issue VARCHAR(255),
-    FOREIGN KEY (SerialNum) REFERENCES product_details(SerialNo)
+    CustomerContact VARCHAR(10),
+    Warranty VARCHAR(250)
 );
 
 CREATE TABLE product_images (
