@@ -5,6 +5,42 @@ from werkzeug.utils import secure_filename
 import base64
 
 
+
+def delete_items(request_json):
+    try:
+        serial_nos = request_json.getlist('serial')
+        try:
+            connection_available = connect_to_available_database()
+            cursor_available = connection_available.cursor()
+            for serial in serial_nos:
+                query = f"DELETE FROM product_issues WHERE SerialNum = '{serial}';" 
+                cursor_available.execute(query,)
+                connection_available.commit()
+
+
+                query = f"DELETE FROM product_images WHERE SerialNum = '{serial}';" 
+                cursor_available.execute(query,)
+                connection_available.commit()
+
+                query = f"DELETE FROM product_details WHERE SerialNo = '{serial}';" 
+                cursor_available.execute(query,)
+                connection_available.commit()
+
+            cursor_available.close()
+            close_connection(connection_available)
+            return {'returncode': 10, 'message': 'Items deleted.'}, 200
+        except Exception as e :
+            connection_available.commit()
+            cursor_available.close()
+            close_connection(connection_available)
+            return {'returncode': 1, 'message': f'{e}'}, 503
+
+    except Exception as e:
+        cursor_available.close()
+        close_connection(connection_available)
+        return {'returncode': 1, 'message': 'Connection to Available Database was not formed.'}, 503
+
+
 def update_items(serial_no, request_json):
     try:
         date = request_json['date']        

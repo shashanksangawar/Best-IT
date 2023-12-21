@@ -54,6 +54,18 @@ def update_backend():
         return {'returncode': 1, 'message': f'{err}'}, 503
 
 
+
+@app.route("/delete", methods=["GET", "POST"])
+def delete_backend():
+    form = request.form
+    try:
+        serial_no = edit_serial
+        message, statuscode = delete_items(request_json=form)
+        return f"<h1>{message['message']}</h1>"
+    except Exception as err:
+        return {'returncode': 1, 'message': f'{err}'}, 503
+
+
 @app.route('/defective_stock')
 def defective_stock():
         return defective_stock_working()
@@ -108,4 +120,4 @@ def test():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

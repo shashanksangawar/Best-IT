@@ -1,5 +1,6 @@
 CREATE DATABASE STOCK_AVAILABLE;
 
+
 CREATE TABLE product_details (
     SerialNo VARCHAR(100) PRIMARY KEY,
     PurchaseDate DATETIME, 

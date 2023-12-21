@@ -13,22 +13,33 @@
 
 <body>
     {{common_elements()}}
-    <!-- <div class="block font-bold text-2xl text-center" >{{product_data | length}}</div>-->
-                <div class="px-8 my-2 flex justify-center items-center flex-col">
-                    {% for index in range(product_data | length) %}
-                   <div class="card px-4 border border-black w-[100%] rounded">
-                        <div class="items">
-                            <!-- Product Data -->
-                            <div class="flex justify-between gap-8">
-				<h4 class="">{{index + 1}}</h4>
-				<p>CPU: {{ product_data[index][4] }}</p>
-				<p>RAM: {{ product_data[index][7] }}</p>
-				<p>Model Name: {{ product_data[index][3] }}</p>
-				<p>SSD/HDD: {{product_data[index][5]}}/{{product_data[index][6]}} </p>
-                                <p id="serial_no">Serial No: {{ product_data[index][0] }}</p>
-                                <button class="sell text-green-500 px-2 rounded"><a href="/full_info?serial_no={{ product_data[index][0] }}&info_type=Available">View Info</a> </button>
-                            </div>
-                        </div>
+    <form method="post">
+        <!-- <div class="block font-bold text-2xl text-center" >{{product_data | length}}</div>-->
+        <div class="upgrade_btn w-[95%] flex gap-8 justify-end items-center my-2 mx-auto text-sm font-bold">
+            <input type="submit" value="Delete" formaction="/delete" class="rounded bg-red-700 text-white px-2 py-1">
+            <input type="submit" value="Broadcast" formaction="" class="rounded bg-blue-600 text-white px-2 py-1">
+        </div>
+        <div class="px-8 my-2 flex justify-center items-center flex-col">
+            {% for index in range(product_data | length) %}
+            <div class="card px-4 border border-black w-[100%] rounded">
+                <div class="items">
+                    <!-- Product Data -->
+                    <div class="flex justify-between gap-8">
+                        <h4 class="">{{index + 1}}</h4>
+                        <p>CPU: {{ product_data[index][4] }}</p>
+                        <p>RAM: {{ product_data[index][7] }}</p>
+                        <p>Model Name: {{ product_data[index][3] }}</p>
+                        <p>SSD/HDD: {{product_data[index][5]}}/{{product_data[index][6]}} </p>
+                        <p id="serial_no">Serial No: {{ product_data[index][0] }}</p>
+                        <button class="sell text-green-500 px-2 rounded"><a
+                                href="/full_info?serial_no={{ product_data[index][0] }}&info_type=Available">View
+                                Info</a> </button>
+                        <div class="check_box"><input type="checkbox" name="serial"
+                                value="{{ product_data[index][0] }}"></div>
                     </div>
-                {% endfor %}
+                </div>
+            </div>
+
+            {% endfor %}
+    </form>
     {{common_elements_end()}}

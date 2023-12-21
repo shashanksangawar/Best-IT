@@ -3,8 +3,8 @@ import mysql.connector
 # Configure MariaDB connection
 db_config = {
     'host': '127.0.0.1',
-    'user': 'eminence',
-    'password': 'shadosama',
+    'user': 'root',
+    'password': 'admin',
     'database': 'STOCK_AVAILABLE'
 }
 
