@@ -24,7 +24,7 @@
 
 
                 <!-- Product Data -->
-                <div class="grid lg:grid-cols-2 grid-cols-1 place-items-center">
+                <div class="grid lg:grid-cols-2 grid-cols-1 place-items-center h-auto">
                     <div class="grid gap-6 mt-2">
                         <p id="serial_no">Serial No: &nbsp; {{ product_data[0] }}</p>
                         Purchase Date: &nbsp; {{ product_data[1] }}
@@ -53,60 +53,61 @@
                 </div>
             </div>
 
-            <hr class="hr w-full h-[10px] bg-gray-400 hidden">
+            <hr class="hr w-full h-[4px] bg-gray-800 hidden">
 
-            <div class="edit_div text-2xl h-[80dvh] mt-12 hidden" id="div_cls_opn">
+            <div class="edit_div lg:text-2xl text-xl h-auto mt-12 hidden" id="div_cls_opn">
                 <form method="post" enctype="multipart/form-data" class="form lg:w-[65dvw] w-full mx-auto my-0">
-                <div class="cnt_1">
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Purchase Date: <input type="date" name="date" placeholder="YYYY-MM-DD" required=""
-                            class="inputs">
+                    <div class="cnt_1">
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Purchase Date: <input type="date" name="date" placeholder="YYYY-MM-DD" required=""
+                                class="inputs">
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Company Name: <input type="text" name="company_name" placeholder="Company Name" required=""
+                                class="inputs">
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Model Name: <input type="text" name="model_name" placeholder="Model Name" required=""
+                                class="inputs">
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Processor: <input type="text" name="processor" placeholder="Processor" required=""
+                                class="inputs">
+                        </div>
                     </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Company Name: <input type="text" name="company_name" placeholder="Company Name" required=""
-                            class="inputs">
-                    </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Model Name: <input type="text" name="model_name" placeholder="Model Name" required=""
-                            class="inputs">
-                    </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Processor: <input type="text" name="processor" placeholder="Processor" required=""
-                            class="inputs">
-                    </div>
-                </div>
 
-                <div class="cnt_2">
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        SSD: <input type="text" name="ssd" placeholder="SSD" class="inputs" required>
+                    <div class="cnt_2">
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            SSD: <input type="text" name="ssd" placeholder="SSD" class="inputs" required>
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            HDD: <input type="text" name="hdd" placeholder="HDD" class="inputs-2" required>
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            RAM: <input type="text" name="ram" placeholder="RAM" required="" class="inputs-2">
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name" required=""
+                                class="inputs-2">
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Device Available at: <input type="text" name="available_at"
+                                placeholder="Device Available at" required="" class="inputs-2">
+                        </div>
+                        <div class="inp_box my-2 p-3 border-b-2 border-black">
+                            Remarks: <input type="text" name="remarks" placeholder=" Any Remarks(Optional)"
+                                class="inputs-2">
+                        </div>
                     </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        HDD: <input type="text" name="hdd" placeholder="HDD" class="inputs-2" required>
-                    </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        RAM: <input type="text" name="ram" placeholder="RAM" required="" class="inputs-2">
-                    </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name" required=""
-                            class="inputs-2">
-                    </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Device Available at: <input type="text" name="available_at" placeholder="Device Available at"
-                            required="" class="inputs-2">
-                    </div>
-                    <div class="inp_box my-2 p-3 border-b-2 border-black">
-                        Remarks: <input type="text" name="remarks" placeholder=" Any Remarks(Optional)"
-                            class="inputs-2">
-                    </div>
-                </div>
 
-                <div class="text-xl text-white font-bold mt-10">
-                    <!-- <button class="sell bg-red-500 px-4 py-1 text-xl rounded"><a href="/update_backend">Update</a>
+                    <div class="text-xl text-white font-bold mt-10">
+                        <!-- <button class="sell bg-red-500 px-4 py-1 text-xl rounded"><a href="/update_backend">Update</a>
                     </button> -->
-                    <input type="hidden" name="serial" value="{{ product_data[0] }}">
-					<input type="submit" formaction="/update_backend" value="Update" class="sell bg-red-500 px-4 py-1 text-xl rounded">
+                        <input type="hidden" name="serial" value="{{ product_data[0] }}">
+                        <input type="submit" formaction="/update_backend" value="Update"
+                            class="sell bg-red-500 px-4 py-1 text-xl rounded">
 
-                </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -115,7 +116,7 @@
 
     <!-- <script src="./static/main.js"></script> -->
     <script>
-        
+
         function display_div() {
             var div_1 = document.querySelector('#div_cls_opn').classList.toggle('hidden');
             var hr = document.querySelector('.hr').classList.toggle('hidden');

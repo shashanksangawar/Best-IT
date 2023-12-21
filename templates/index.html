@@ -5,57 +5,62 @@
 	<title>Best Computer</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
 	<!-- Defining Macro for other html file -->
 	{% macro common_elements() %}
-		<!-- Hero section -->
-		<div class="hero">
+	<!-- Hero section -->
+	<div class="hero">
 
-			<!-- Navbar -->
-			<nav class="Sidenavbar bg-[#16273f] text-white w-[300px] h-[100dvh] lg:block fixed z-10 border-r-2 border-black"
-				id="navbar">
-				<div class="cnt mt-8">
-					<div class="flex flex-col items-center justify-around gap-4 p-2">
-						<span id="logo"
-							class="w-[100px] h-[100px] text-4xl bg-white text-black font-semibold rounded-full flex justify-center items-center">BC</span>
-						<span class="text-2xl p-2 bg-black text-white rounded-xl">Best Computer</span>
-					</div>
-					<div class="flex flex-col text-2xl text-left mt-8 px-4">
-						<a class="btn rounded p-2 bg-blue-900 hover:bg-blue-800 w-full" href="/add">Add product</a>
-						<a class="btn rounded p-2 hover:bg-blue-800 w-full" href="/available_stock">Available stock</a>
-						<a class="btn rounded p-2 hover:bg-blue-800 w-full" href="/sold_stock">Sold stock</a>
-						<a class="btn rounded p-2 hover:bg-blue-800 w-full" href="/defective_stock">Defective stock</a>
+		<!-- Navbar -->
+		<nav class="Sidenavbar bg-[#16273f] text-white w-[300px] h-[100dvh] lg:block hidden fixed z-10 border-r-2 border-black"
+			id="navbar">
+			<div class="cnt mt-8">
+				<div class="flex flex-col items-center justify-around gap-4 p-2">
+					<span id="logo"
+						class="w-[100px] h-[100px] text-4xl bg-white text-black font-semibold rounded-full flex justify-center items-center">BC</span>
+					<span class="text-2xl p-2 bg-black text-white rounded-xl">Best Computer</span>
+				</div>
+				<div class="flex flex-col text-2xl text-left mt-8 px-4">
+					<a class="btn rounded p-2 bg-blue-900 hover:bg-blue-800 w-full" href="/add">Add
+						product</a>
+					<a class="btn rounded p-2 hover:bg-blue-800 w-full"
+						href="/available_stock">Available stock</a>
+					<a class="btn rounded p-2 hover:bg-blue-800 w-full" href="/sold_stock">Sold
+						stock</a>
+					<a class="btn rounded p-2 hover:bg-blue-800 w-full"
+						href="/defective_stock">Defective stock</a>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Main section -->
+		<main>
+
+			<div class="lg:ml-[300px]">
+
+				<div class="w-[100%] flex justify-between items-center gap-8">
+					<div class="lg:hidden block" id="nav_btn">
+						<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
+						<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
+						<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
+						<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
 					</div>
 				</div>
-			</nav>
-	
-			<!-- Main section -->
-			<main>
-	
-				<div class="lg:ml-[300px]">
-	
-					<div class="w-[100%] flex justify-between items-center gap-8">
-						<div class="lg:hidden block" id="nav_btn">
-							<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
-							<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
-							<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
-							<span class="block w-[35px] h-[4px] bg-blue-400 my-1"></span>
-						</div>
-					</div>
-	{% endmacro %}
-	
-	{% macro common_elements_end() %}
-</div>
-</main>
-</div>
+				{% endmacro %}
+
+				{% macro common_elements_end() %}
+			</div>
+		</main>
+	</div>
 </body>
+
 </html>
 {% endmacro %}
 
-		
+
 
 {{common_elements()}}
 {{common_elements_end()}}
