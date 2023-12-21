@@ -1,0 +1,36 @@
+{% from 'index.html' import common_elements,common_elements_end %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sold Stock</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+{{common_elements()}}
+                <div class="p-4 w-[100%] flex flex-col items-center">
+
+                    {% for index in range(product_data | length) %}
+                    <div class="card px-4 border border-black w-[100%] rounded-xl">
+                        <div class="items">
+                            <!-- Product Data -->
+                            <div class="flex justify-between">
+				   <h4>{{index + 1}}</h4>
+				<p>CPU: {{ product_data[index][4] }}</p>
+				<p>RAM: {{ product_data[index][7] }}</p>
+				<!--<p>Sold Date: {{ product_data[index][1] }}</p>-->
+				<p>Customer : {{ product_data[index][8] }}</p>
+                                <p>Model : {{ product_data[index][3] }}</p>
+				<p>SSD/HDD: {{product_data[index][5]}}/{{product_data[index][6]}} </p>
+                                <p id="serial_no">Serial No: {{ product_data[index][0] }}</p>
+                                <button class="sell bg-green-500 px-4 text-xl rounded"><a href="/full_info?serial_no={{ product_data[index][0] }}&info_type=Sold">View Info</a> </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+{{common_elements_end()}}

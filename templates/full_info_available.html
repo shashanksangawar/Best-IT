@@ -1,0 +1,123 @@
+{% from 'index.html' import common_elements,common_elements_end %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Stock Info</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    {{common_elements()}}
+    <div class="p-8 w-[100%]">
+
+        <div class="card p-4 border border-black w-[100%] rounded-xl">
+            <div class="text-2xl flex flex-col justify-around h-[100dvh]">
+                <!-- Images -->
+                <div class="w-[100%] grid place-items-center mb-8">
+                    <img src="{{ device }}" alt="device" width="550">
+                </div>
+
+
+                <!-- Product Data -->
+                <div class="grid lg:grid-cols-2 grid-cols-1 place-items-center">
+                    <div class="grid gap-6 mt-2">
+                        <p id="serial_no">Serial No: &nbsp; {{ product_data[0] }}</p>
+                        Purchase Date: &nbsp; {{ product_data[1] }}
+                        <p>Company Name: &nbsp; {{ product_data[2] }}</p>
+                        <p>Model Name: &nbsp; {{ product_data[3] }}</p>
+                        <p>Processor: &nbsp; {{ product_data[4] }}</p>
+                        <p>SSD: &nbsp; {{ product_data[5] }}</p>
+
+                    </div>
+                    <div class="grid gap-6 mt-2">
+                        <p>HDD: &nbsp; {{ product_data[6] }}</p>
+                        <p>RAM: &nbsp; {{ product_data[7] }}</p>
+                        <p>Supplier: &nbsp; {{ product_data[8] }}</p>
+                        <p>Available At: &nbsp; {{ product_data[9] }}</p>
+                        <p>Remarks: &nbsp; {{ product_data[10] }}</p>
+                    </div>
+                </div>
+
+
+                <div class="text-xl text-white font-bold mt-10" id="cls_btn">
+                    <button class="issue bg-red-500 px-3 py-1 text-xl rounded"> <a
+                            href="/issue?serial_no={{ product_data[0] }}">Issue</a></button>
+                    <button class="sell bg-green-500 px-4 py-1 text-xl rounded"><a
+                            href="/sell?serial_no={{ product_data[0] }}">Sell</a> </button>
+                    <button class="sell bg-blue-500 px-4 py-1 text-xl rounded" onclick="display_div()">Edit<button>
+                </div>
+            </div>
+
+            <hr class="hr w-full h-[10px] bg-gray-400 hidden">
+
+            <div class="edit_div text-2xl h-[80dvh] mt-12 hidden" id="div_cls_opn">
+                <form method="post" enctype="multipart/form-data" class="form lg:w-[65dvw] w-full mx-auto my-0">
+                <div class="cnt_1">
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Purchase Date: <input type="date" name="date" placeholder="YYYY-MM-DD" required=""
+                            class="inputs">
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Company Name: <input type="text" name="company_name" placeholder="Company Name" required=""
+                            class="inputs">
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Model Name: <input type="text" name="model_name" placeholder="Model Name" required=""
+                            class="inputs">
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Processor: <input type="text" name="processor" placeholder="Processor" required=""
+                            class="inputs">
+                    </div>
+                </div>
+
+                <div class="cnt_2">
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        SSD: <input type="text" name="ssd" placeholder="SSD" class="inputs" required>
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        HDD: <input type="text" name="hdd" placeholder="HDD" class="inputs-2" required>
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        RAM: <input type="text" name="ram" placeholder="RAM" required="" class="inputs-2">
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Supplier Name: <input type="text" name="supplier" placeholder="Supplier Name" required=""
+                            class="inputs-2">
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Device Available at: <input type="text" name="available_at" placeholder="Device Available at"
+                            required="" class="inputs-2">
+                    </div>
+                    <div class="inp_box my-2 p-3 border-b-2 border-black">
+                        Remarks: <input type="text" name="remarks" placeholder=" Any Remarks(Optional)"
+                            class="inputs-2">
+                    </div>
+                </div>
+
+                <div class="text-xl text-white font-bold mt-10">
+                    <!-- <button class="sell bg-red-500 px-4 py-1 text-xl rounded"><a href="/update_backend">Update</a>
+                    </button> -->
+                    <input type="hidden" name="serial" value="{{ product_data[0] }}">
+					<input type="submit" formaction="/update_backend" value="Update" class="sell bg-red-500 px-4 py-1 text-xl rounded">
+
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{common_elements_end()}}
+
+    <!-- <script src="./static/main.js"></script> -->
+    <script>
+        
+        function display_div() {
+            var div_1 = document.querySelector('#div_cls_opn').classList.toggle('hidden');
+            var hr = document.querySelector('.hr').classList.toggle('hidden');
+        }
+    </script>

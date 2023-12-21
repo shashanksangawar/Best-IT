@@ -1,0 +1,46 @@
+{% from 'index.html' import common_elements,common_elements_end %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sold Stock Info</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    {{common_elements()}}
+    <div class="px-8 mb-4 w[100%]">
+
+        <div class="card p-6 border border-black w-[100%] rounded-xl">
+            <div class="text-2xl">
+                <!-- Images -->
+                <div class="img_cnt w-[100%] grid sm:grid-cols-2 grid-cols-1 place-items-center my-4 mb-8">
+                    <img src="{{ device }}" alt="device" width="400">
+                    <img src="{{ image_proof }}" alt="image_proof" width="400">
+                </div>
+
+                <!-- Product Data -->
+                <div class="grid lg:grid-cols-2 grid-cols-1 place-items-center">
+                    <div class="card-contents grid gap-2 mt-2">
+                        <p id="serial_no">Serial No: &nbsp; {{ product_data[0] }}</p>
+                        <p>Sold Date:  &nbsp; {{ product_data[1] }}</p>
+                        <p>Company Name: &nbsp; {{ product_data[2] }}</p>
+                        <p>Model Name: &nbsp; {{ product_data[3] }}</p>
+                        <p>Processor: &nbsp; {{ product_data[4] }}</p>
+                    </div>
+                    <div>
+                        <p>SSD: &nbsp; {{ product_data[5] }}</p>
+                        <p>HDD: &nbsp; {{ product_data[6] }}</p>
+                        <p>RAM: &nbsp; {{ product_data[7] }}</p>
+                        <p>Customer Name: &nbsp; {{ product_data[8] }}</p>
+                        <p>Customer Contact: &nbsp; {{ product_data[9] }}</p>
+                        <p>Warranty: &nbsp; {{ product_data[10] }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{common_elements_end()}}
