@@ -1,9 +1,6 @@
 from flask import request, render_template
 from sold_connector import *
 from stock_connector import *
-from werkzeug.utils import secure_filename
-import base64
-
 
 
 def delete_items(request_json):
@@ -13,17 +10,17 @@ def delete_items(request_json):
             connection_available = connect_to_available_database()
             cursor_available = connection_available.cursor()
             for serial in serial_nos:
-                query = f"DELETE FROM product_issues WHERE SerialNum = '{serial}';" 
-                cursor_available.execute(query,)
+                query = "DELETE FROM product_issues WHERE SerialNum = '%s';" 
+                cursor_available.execute(query,(serial))
                 connection_available.commit()
 
 
-                query = f"DELETE FROM product_images WHERE SerialNum = '{serial}';" 
-                cursor_available.execute(query,)
+                query = "DELETE FROM product_images WHERE SerialNum = '%s';" 
+                cursor_available.execute(query,(serial))
                 connection_available.commit()
 
-                query = f"DELETE FROM product_details WHERE SerialNo = '{serial}';" 
-                cursor_available.execute(query,)
+                query = "DELETE FROM product_details WHERE SerialNo = '%s';" 
+                cursor_available.execute(query,(serial))
                 connection_available.commit()
 
             cursor_available.close()
@@ -54,15 +51,27 @@ def update_items(serial_no, request_json):
         supplier = request_json['supplier']
         available_at = request_json['available_at']
         remarks = request_json['remarks']
+        device_image = request.files['device'].read()
+
         try:
             connection_available = connect_to_available_database()
             cursor_available = connection_available.cursor()    
             query = f"UPDATE product_details SET PurchaseDate = '{date}', CompanyName= '{company_name}', ModelName='{model_name}', Processor='{processor}', SSD='{ssd}', HDD='{hdd}',  RAM='{ram}', Supplier='{supplier}', AvailableAt='{available_at}', Remarks='{remarks}' WHERE SerialNo = '{serial}';" 
             cursor_available.execute(query,)
             connection_available.commit()
-            cursor_available.close()
-            close_connection(connection_available)
-            return {'returncode': 10, 'message': 'Items Updated.'}, 200
+            try:
+                
+                query = "UPDATE product_images SET Device = %s WHERE SerialNum = %s"
+                cursor_available.execute(query, (device_image, serial_no))
+                connection_available.commit()
+                cursor_available.close()
+                close_connection(connection_available)
+                return {'returncode': 10, 'message': 'Items Updated.'}, 200
+            except Exception as e :
+                connection_available.commit()
+                cursor_available.close()
+                close_connection(connection_available)
+                return {'returncode': 1, 'message': f'{e}'}, 503
         except Exception as e :
             connection_available.commit()
             cursor_available.close()
@@ -73,6 +82,7 @@ def update_items(serial_no, request_json):
         cursor_available.close()
         close_connection(connection_available)
         return {'returncode': 1, 'message': 'Connection to Available Database was not formed.'}, 503
+
 
 
 def serial_no_pulling():
@@ -131,15 +141,14 @@ def insert_items():
                 cursor.execute(query, (serial_no, date, company_name, model_name, processor, ssd, hdd, ram, supplier, available_at, remarks))
                 connection.commit()
                 try:
-                
-                    query = f"INSERT INTO product_images(SerialNum, Device) VALUES ('{serial_no}', {device_image})"
-                    # query = "INSERT INTO product_images(SerialNum, Device) VALUES (%s, %s)"
-                    # cursor.execute(query, (serial_no, device_image))
-                    cursor.execute(query, )
+                    
+                    query = "INSERT INTO product_images(SerialNum, Device) VALUES (%s, %s)"
+                    cursor.execute(query, (serial_no, device_image))
                     connection.commit()
                     cursor.close()
                     close_connection(connection)
                     return '<h1>Data Values were inserted.</h1>'
+
                 except Exception as e :
                     query = "DELETE FROM product_images WHERE SerialNo='%s';"
                     cursor.execute(query,(serial_no))
@@ -240,8 +249,9 @@ def available_issue_working(serial_no,request_json):
         connection_available = connect_to_available_database()
         cursor_available = connection_available.cursor()
         try:
-            query = f"INSERT INTO product_issues(SerialNum, Issue) VALUES ('{serial_no}', '{issues}') ;"
-            cursor_available.execute(query, )
+            # query = f"INSERT INTO product_issues(SerialNum, Issue) VALUES ('{serial_no}', '{issues}') ;"
+            query = "INSERT INTO product_issues(SerialNum, Issue) VALUES ('%s', '%s') ;"
+            cursor_available.execute(query, (serial_no, issues))
             connection_available.commit()
             cursor_available.close()
             close_connection(connection_available)

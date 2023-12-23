@@ -50,7 +50,7 @@ def full_info_sold_working(serial_no):
         cursor_sold = connection_sold.cursor()
         try:
             query = f"SELECT * FROM product_details WHERE SerialNo='{serial_no}';"
-            print(query)
+         
             cursor_sold.execute(query,)
             rows = cursor_sold.fetchone()
             try:
