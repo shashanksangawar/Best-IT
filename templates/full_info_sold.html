@@ -12,14 +12,14 @@
 
 <body>
     {{common_elements()}}
-    <div class="px-8 mb-4 w[100%]">
+    <div class="px-8 mb-4 w[100%] h-screen grid place-items-center">
 
         <div class="card p-6 border border-black w-[100%] rounded-xl">
             <div class="text-2xl">
                 <!-- Images -->
                 <div class="img_cnt w-[100%] grid sm:grid-cols-2 grid-cols-1 place-items-center my-4 mb-8">
-                    <img src="{{ device }}" alt="device" width="400">
-                    <img src="{{ image_proof }}" alt="image_proof" width="400">
+                    <img src="{{ device }}" alt="device" class="h-[400px]">
+                    <img src="{{ image_proof }}" alt="image_proof" class="h-[400px]">
                 </div>
 
                 <!-- Product Data -->

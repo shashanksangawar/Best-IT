@@ -7,25 +7,37 @@ def delete_items(request_json):
     try:
         serial_nos = request_json.getlist('serial')
         try:
+            flag=0
             connection_available = connect_to_available_database()
             cursor_available = connection_available.cursor()
             for serial in serial_nos:
-                query = "DELETE FROM product_issues WHERE SerialNum = '%s';" 
-                cursor_available.execute(query,(serial))
+                #query = "DELETE FROM product_issues WHERE SerialNum = '%s';" 
+                query = f"DELETE FROM product_issues WHERE SerialNum = '{serial}';" 
+                #cursor_available.execute(query,(serial))
+                cursor_available.execute(query, )
                 connection_available.commit()
+                flag=1
 
-
-                query = "DELETE FROM product_images WHERE SerialNum = '%s';" 
-                cursor_available.execute(query,(serial))
+                #query = "DELETE FROM product_images WHERE SerialNum = '%s';" 
+                query = f"DELETE FROM product_images WHERE SerialNum = '{serial}';" 
+                #cursor_available.execute(query,(serial))
+                cursor_available.execute(query, )               
                 connection_available.commit()
+                flag=2
 
-                query = "DELETE FROM product_details WHERE SerialNo = '%s';" 
-                cursor_available.execute(query,(serial))
+                #query = "DELETE FROM product_details WHERE SerialNo = '%s';" 
+                #cursor_available.execute(query,(serial))
+                query = f"DELETE FROM product_details WHERE SerialNo = '{serial}';" 
+                cursor_available.execute(query, )
                 connection_available.commit()
+                flag=3
 
             cursor_available.close()
             close_connection(connection_available)
-            return {'returncode': 10, 'message': 'Items deleted.'}, 200
+            if flag==3:
+                return {'returncode': 10, 'message': 'Items deleted.'}, 200
+            else:
+                return flag
         except Exception as e :
             connection_available.commit()
             cursor_available.close()
